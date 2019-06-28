@@ -47,6 +47,7 @@ int ncr(int n, int r)
 
     for(int i = 1; i <= n; i++)
     {
+       cout << narr[i] << endl;
         ans *= narr[i];
     }
 

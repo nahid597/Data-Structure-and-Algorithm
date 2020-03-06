@@ -2,127 +2,109 @@
 
 using namespace std;
 
-void marge(int arr[], int l , int m , int r)
+int arr[1000];
+
+void Merge(int arr[], int l, int r, int m)
 {
-    int i , j , k;
-    int nl = m - l + 1;
-    int nr = r - m;
+    int i , j , k ;
 
-   // cout << "nl " << l << endl;
-   // cout << "nr " << r << endl;
-   // cout << "m " << m << endl;
+    int nl, nr;
 
-    /// create temp arry
+    //cout << "mahid" << endl;
 
-    int L[nl+1], R[nr+1];
+    nl = m - l + 1;
+    nr = r - m;
 
-    //cout<< "n1 " << l << endl;
+    int la[nl+1], ra[nr+1];
 
-    /// copy data into L and R from arr[]
+    //cout << nl << endl;
 
-    for(i = 0; i < nl; i++)
+    for( i = 0; i < nl; i++)
     {
-        cout << arr[l+i] << endl;
-        L[i] = arr[l + i];
+        la[i] = arr[l + i];
+       // cout << la[i] << endl;
     }
 
-    for(j = 0; j < nr; j++)
+    for( j = 0; j < nr; j++)
     {
-        //cout << arr[m + j + 1] << endl;
-        R[j] = arr[m + j + 1];
+        ra[j] = arr[ m + j + 1];
     }
 
-    /// marge the temp arry back to arr[]
-
-    i = 0; /// initial first subarray
-    j = 0;  /// initail second subaray
-    k = l;  /// initail merge array
+    i = j = 0;
+    k = l;
 
     while(i < nl && j < nr)
     {
-        if(L[i] <= R[j])
+        if(la[i] < ra[j])
         {
-            arr[k] = L[i];
-            i++;
+           arr[k] = la[i++];
+           //cout << arr[k] << endl;
+           k++;
         }
-
         else
         {
-            arr[k] = R[j];
-            j++;
+            arr[k] = ra[j++];
+            //cout << arr[k] << endl;
+            k++;
         }
-
-        k++;
     }
-
-    /// copy reaming array
 
     while(i < nl)
     {
-       arr[k] = L[i];
-       i++;
-       k++;
+      arr[k] = la[i++];
+     // cout << arr[k] << endl;
+      k++;
     }
 
     while(j < nr)
     {
-       arr[k] = R[j];
-       j++;
-       k++;
+      arr[k] = ra[j++];
+     // cout << arr[k] << endl;
+      k++;
     }
 
 }
 
-void margeSort(int arr[], int l , int r)
+void mergesort(int arr[], int l, int r)
 {
-   // cout << "nahid" << endl;
+  if(l < r)
+  {
+    //cout << l << " " << r << endl;
+     int mid = (l+r) / 2;
 
-    if(l < r)
-    {
-         int m = l+ (r-l)/2;
-
-       //  cout << m << endl;
-        // cout << "l " << l << " " << "r " << r << endl;
-
-        // Sort first and second halves
-        margeSort(arr, l, m);
-        margeSort(arr, m+1, r);
-
-        marge(arr, l, m, r);
-
-    }
-        // Same as (l+r)/2, but avoids overflow for
-        // large l and h
-
-
-
+      mergesort(arr, l, mid);
+      mergesort(arr, mid+1, r);
+      Merge(arr, l, r, mid);
+  }
 }
 
-void printArray(int A[], int size)
+void print(int arr[], int size)
 {
     int i;
     for (i=0; i < size; i++)
-        printf("%d ", A[i]);
+        printf("%d ", arr[i]);
     printf("\n");
 }
 
 int main()
 {
-    int arr[] = {12, 11, 13, 5, 6, 7, 45};
-    int arr_size = sizeof(arr)/sizeof(arr[0]);
+   int n;
 
-    cout << arr_size << endl;
+   cin >> n;
 
-    printf("Given array is \n");
-    printArray(arr, arr_size);
+   for(int  i = 0; i < n; i++)
+   {
+       cin >> arr[i];
+   }
 
-     margeSort(arr, 0, arr_size - 1);
+   mergesort(arr, 0, n-1);
 
-    printf("\nSorted array is \n");
-    printArray(arr, arr_size);
-
-
+   print(arr, n);
 
 
-    return 0;
+
+
+
+
+   return 0;
 }
